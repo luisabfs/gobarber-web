@@ -1,39 +1,51 @@
 import React from 'react';
+import { Form } from '@unform/web';
 
 import { FiArrowLeft, FiMail, FiLock, FiUser } from 'react-icons/fi';
-import logo from '../../assets/logo.svg';
 
 import { Input, Button } from '../../components';
 
 import { Container, Content, Background } from './styles';
 
-const SignUp: React.FC = () => (
-  <Container>
-    <Background />
-    <Content>
-      <img src={logo} alt="GoBarber Logo" />
+import logo from '../../assets/logo.svg';
 
-      <form>
-        <h1>Register</h1>
+const SignUp: React.FC = () => {
+  function handleSubmit(data: {
+    name: string;
+    email: string;
+    password: string;
+  }): void {
+    console.log(data);
+  }
 
-        <Input icon={FiUser} name="name" type="text" placeholder="Name" />
-        <Input icon={FiMail} name="email" type="email" placeholder="Email" />
-        <Input
-          icon={FiLock}
-          name="password"
-          type="password"
-          placeholder="Password"
-        />
+  return (
+    <Container>
+      <Background />
+      <Content>
+        <img src={logo} alt="GoBarber Logo" />
 
-        <Button type="submit">Register</Button>
-      </form>
+        <Form onSubmit={handleSubmit}>
+          <h1>Register</h1>
 
-      <a href="login">
-        <FiArrowLeft />
-        Back to logon
-      </a>
-    </Content>
-  </Container>
-);
+          <Input icon={FiUser} name="name" type="text" placeholder="Name" />
+          <Input icon={FiMail} name="email" type="email" placeholder="Email" />
+          <Input
+            icon={FiLock}
+            name="password"
+            type="password"
+            placeholder="Password"
+          />
+
+          <Button type="submit">Register</Button>
+        </Form>
+
+        <a href="login">
+          <FiArrowLeft />
+          Back to logon
+        </a>
+      </Content>
+    </Container>
+  );
+};
 
 export default SignUp;
