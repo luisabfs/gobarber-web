@@ -1,18 +1,25 @@
-import React, { useCallback } from 'react';
-import { Form } from '@unform/web';
+import React, { useCallback, useRef } from 'react';
 import * as Yup from 'yup';
 
+import { Form } from '@unform/web';
+import { FormHandles } from '@unform/core';
 import { FiArrowLeft, FiMail, FiLock, FiUser } from 'react-icons/fi';
 
 import { Input, Button } from '../../components';
 
 import { Container, Content, Background } from './styles';
 
+import getValidationErrors from '../../utils/getValidationErrors';
+
 import logo from '../../assets/logo.svg';
 
 const SignUp: React.FC = () => {
+  const formRef = useRef<FormHandles>(null);
+
   const handleSubmit = useCallback(async data => {
     try {
+      formRef.current?.setErrors({});
+
       const schema = Yup.object().shape({
         name: Yup.string().required('Name is required.'),
         email: Yup.string()
@@ -23,7 +30,9 @@ const SignUp: React.FC = () => {
 
       await schema.validate(data, { abortEarly: false });
     } catch (error) {
-      console.log(error);
+      const errors = getValidationErrors(error);
+
+      formRef.current?.setErrors(errors);
     }
   }, []);
 
@@ -33,11 +42,11 @@ const SignUp: React.FC = () => {
       <Content>
         <img src={logo} alt="GoBarber Logo" />
 
-        <Form onSubmit={handleSubmit}>
+        <Form ref={formRef} onSubmit={handleSubmit}>
           <h1>Register</h1>
 
           <Input icon={FiUser} name="name" type="text" placeholder="Name" />
-          <Input icon={FiMail} name="email" type="email" placeholder="Email" />
+          <Input icon={FiMail} name="email" type="text" placeholder="Email" />
           <Input
             icon={FiLock}
             name="password"
