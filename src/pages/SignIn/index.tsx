@@ -1,4 +1,8 @@
-import React from 'react';
+import React, { useRef, useCallback } from 'react';
+import * as Yup from 'yup';
+
+import { Form } from '@unform/web';
+import { FormHandles } from '@unform/core';
 
 import { FiLogIn, FiMail, FiLock } from 'react-icons/fi';
 import logo from '../../assets/logo.svg';
@@ -7,34 +11,59 @@ import { Input, Button } from '../../components';
 
 import { Container, Content, Background } from './styles';
 
-const SignIn: React.FC = () => (
-  <Container>
-    <Content>
-      <img src={logo} alt="GoBarber Logo" />
+import getValidationErrors from '../../utils/getValidationErrors';
 
-      <form>
-        <h1>Login</h1>
+const SignIn: React.FC = () => {
+  const formRef = useRef<FormHandles>(null);
 
-        <Input icon={FiMail} name="email" type="email" placeholder="Email" />
-        <Input
-          icon={FiLock}
-          name="password"
-          type="password"
-          placeholder="Password"
-        />
+  const handleSubmit = useCallback(async data => {
+    try {
+      formRef.current?.setErrors({});
 
-        <Button type="submit">Enter</Button>
+      const schema = Yup.object().shape({
+        email: Yup.string()
+          .email('Insert a valid email.')
+          .required('Email is required.'),
+        password: Yup.string().required('Password is required.'),
+      });
 
-        <a href="forgot">Forgot password</a>
-      </form>
+      await schema.validate(data, { abortEarly: false });
+    } catch (error) {
+      const errors = getValidationErrors(error);
 
-      <a href="login">
-        <FiLogIn />
-        Create account
-      </a>
-    </Content>
-    <Background />
-  </Container>
-);
+      formRef.current?.setErrors(errors);
+    }
+  }, []);
+
+  return (
+    <Container>
+      <Content>
+        <img src={logo} alt="GoBarber Logo" />
+
+        <Form ref={formRef} onSubmit={handleSubmit}>
+          <h1>Login</h1>
+
+          <Input icon={FiMail} name="email" type="text" placeholder="Email" />
+          <Input
+            icon={FiLock}
+            name="password"
+            type="password"
+            placeholder="Password"
+          />
+
+          <Button type="submit">Enter</Button>
+
+          <a href="forgot">Forgot password</a>
+        </Form>
+
+        <a href="login">
+          <FiLogIn />
+          Create account
+        </a>
+      </Content>
+      <Background />
+    </Container>
+  );
+};
 
 export default SignIn;
