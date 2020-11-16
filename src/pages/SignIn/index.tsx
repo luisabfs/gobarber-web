@@ -11,7 +11,7 @@ import { Input, Button } from '../../components';
 
 import { Container, Content, Background } from './styles';
 
-import { useAuth } from '../../contexts/AuthContext';
+import { useAuth } from '../../hooks/AuthContext';
 import getValidationErrors from '../../utils/getValidationErrors';
 
 interface SignInFormData {
