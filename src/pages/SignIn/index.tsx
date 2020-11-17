@@ -11,7 +11,7 @@ import logo from '../../assets/logo.svg';
 
 import { Input, Button } from '../../components';
 
-import { Container, Content, Background } from './styles';
+import { Container, Content, AnimatedContainer, Background } from './styles';
 
 import { useAuth } from '../../hooks/auth';
 import { useToast } from '../../hooks/toast';
@@ -57,6 +57,8 @@ const SignIn: React.FC = () => {
           const errors = getValidationErrors(error);
 
           formRef.current?.setErrors(errors);
+
+          return;
         }
 
         addToast({
@@ -72,29 +74,32 @@ const SignIn: React.FC = () => {
   return (
     <Container>
       <Content>
-        <img src={logo} alt="GoBarber Logo" />
+        <AnimatedContainer>
+          <img src={logo} alt="GoBarber Logo" />
 
-        <Form ref={formRef} onSubmit={handleSubmit}>
-          <h1>Login</h1>
+          <Form ref={formRef} onSubmit={handleSubmit}>
+            <h1>Login</h1>
 
-          <Input icon={FiMail} name="email" type="text" placeholder="Email" />
-          <Input
-            icon={FiLock}
-            name="password"
-            type="password"
-            placeholder="Password"
-          />
+            <Input icon={FiMail} name="email" type="text" placeholder="Email" />
+            <Input
+              icon={FiLock}
+              name="password"
+              type="password"
+              placeholder="Password"
+            />
 
-          <Button type="submit">Enter</Button>
+            <Button type="submit">Enter</Button>
 
-          <a href="forgot">Forgot password</a>
-        </Form>
+            <a href="forgot">Forgot password</a>
+          </Form>
 
-        <Link to="/signup">
-          <FiLogIn />
-          Create account
-        </Link>
+          <Link to="/signup">
+            <FiLogIn />
+            Create account
+          </Link>
+        </AnimatedContainer>
       </Content>
+
       <Background />
     </Container>
   );

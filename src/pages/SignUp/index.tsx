@@ -9,7 +9,7 @@ import { FiArrowLeft, FiMail, FiLock, FiUser } from 'react-icons/fi';
 
 import { Input, Button } from '../../components';
 
-import { Container, Content, Background } from './styles';
+import { Container, Content, AnimatedContainer, Background } from './styles';
 
 import getValidationErrors from '../../utils/getValidationErrors';
 
@@ -41,28 +41,31 @@ const SignUp: React.FC = () => {
   return (
     <Container>
       <Background />
+
       <Content>
-        <img src={logo} alt="GoBarber Logo" />
+        <AnimatedContainer>
+          <img src={logo} alt="GoBarber Logo" />
 
-        <Form ref={formRef} onSubmit={handleSubmit}>
-          <h1>Register</h1>
+          <Form ref={formRef} onSubmit={handleSubmit}>
+            <h1>Register</h1>
 
-          <Input icon={FiUser} name="name" type="text" placeholder="Name" />
-          <Input icon={FiMail} name="email" type="text" placeholder="Email" />
-          <Input
-            icon={FiLock}
-            name="password"
-            type="password"
-            placeholder="Password"
-          />
+            <Input icon={FiUser} name="name" type="text" placeholder="Name" />
+            <Input icon={FiMail} name="email" type="text" placeholder="Email" />
+            <Input
+              icon={FiLock}
+              name="password"
+              type="password"
+              placeholder="Password"
+            />
 
-          <Button type="submit">Register</Button>
-        </Form>
+            <Button type="submit">Register</Button>
+          </Form>
 
-        <Link to="/">
-          <FiArrowLeft />
-          Back to logon
-        </Link>
+          <Link to="/">
+            <FiArrowLeft />
+            Back to logon
+          </Link>
+        </AnimatedContainer>
       </Content>
     </Container>
   );
