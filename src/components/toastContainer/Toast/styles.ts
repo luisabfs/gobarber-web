@@ -63,9 +63,14 @@ export const Container = styled.div<ToastProps>`
     background: transparent;
     color: inherit;
   }
+
   ${({ hasDescription }) =>
     !hasDescription &&
     css`
       align-items: center;
+
+      button {
+        top: inherit;
+      }
     `}
 `;
